@@ -1,0 +1,1141 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GestaoMensalidades.API</name>
+    </assembly>
+    <members>
+        <member name="T:GestaoMensalidades.API.Controllers.AuthController">
+            <summary>
+            Controller responsável pela autenticação de usuários
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.AuthController.Login(GestaoMensalidades.API.DTOs.Auth.LoginRequestDto)">
+            <summary>
+            Realiza login de um usuário
+            </summary>
+            <param name="loginRequest">Dados de login</param>
+            <returns>Token JWT e informações do usuário</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.AuthController.Register(GestaoMensalidades.API.DTOs.Auth.RegisterRequestDto)">
+            <summary>
+            Registra um novo usuário no sistema
+            </summary>
+            <param name="registerRequest">Dados de registro</param>
+            <returns>Token JWT e informações do usuário</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.AuthController.CheckEmailAvailability(System.String)">
+            <summary>
+            Verifica se um email está disponível para uso
+            </summary>
+            <param name="email">Email a ser verificado</param>
+            <returns>True se disponível, false se já em uso</returns>
+        </member>
+        <member name="T:GestaoMensalidades.API.Controllers.BaseController">
+            <summary>
+            Controller base com funcionalidades comuns
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.BaseController.GetCurrentUserId">
+            <summary>
+            Obtém o ID do usuário autenticado a partir do token JWT
+            </summary>
+            <returns>ID do usuário ou null se não autenticado</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.BaseController.GetCurrentUserRole">
+            <summary>
+            Obtém o papel do usuário autenticado
+            </summary>
+            <returns>Papel do usuário ou null se não autenticado</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.BaseController.IsAdmin">
+            <summary>
+            Verifica se o usuário atual é administrador
+            </summary>
+            <returns>True se for administrador</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.BaseController.ErrorResponse(System.String,System.Int32)">
+            <summary>
+            Retorna uma resposta de erro padronizada
+            </summary>
+            <param name="message">Mensagem de erro</param>
+            <param name="statusCode">Código de status HTTP</param>
+            <returns>Resposta de erro</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.BaseController.SuccessResponse(System.Object,System.String)">
+            <summary>
+            Retorna uma resposta de sucesso padronizada
+            </summary>
+            <param name="data">Dados da resposta</param>
+            <param name="message">Mensagem de sucesso</param>
+            <returns>Resposta de sucesso</returns>
+        </member>
+        <member name="T:GestaoMensalidades.API.Controllers.CustomersController">
+            <summary>
+            Controller responsável pelas operações CRUD de clientes
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.CustomersController.GetCustomers">
+            <summary>
+            Lista todos os clientes do usuário autenticado
+            </summary>
+            <returns>Lista de clientes</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.CustomersController.GetCustomer(System.Guid)">
+            <summary>
+            Busca um cliente específico por ID
+            </summary>
+            <param name="id">ID do cliente</param>
+            <returns>Cliente encontrado</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.CustomersController.CreateCustomer(GestaoMensalidades.API.DTOs.Customer.CreateCustomerDto)">
+            <summary>
+            Cria um novo cliente
+            </summary>
+            <param name="createDto">Dados do cliente a ser criado</param>
+            <returns>Cliente criado</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.CustomersController.UpdateCustomer(System.Guid,GestaoMensalidades.API.DTOs.Customer.UpdateCustomerDto)">
+            <summary>
+            Atualiza um cliente existente
+            </summary>
+            <param name="id">ID do cliente</param>
+            <param name="updateDto">Dados atualizados do cliente</param>
+            <returns>Cliente atualizado</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.CustomersController.DeleteCustomer(System.Guid)">
+            <summary>
+            Remove um cliente
+            </summary>
+            <param name="id">ID do cliente</param>
+            <returns>Confirmação da remoção</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.CustomersController.CheckDocumentAvailability(System.String,System.Nullable{System.Guid})">
+            <summary>
+            Verifica se um documento está disponível para uso
+            </summary>
+            <param name="document">Documento a ser verificado</param>
+            <param name="excludeId">ID do cliente a ser excluído da verificação (para updates)</param>
+            <returns>True se disponível, false se já em uso</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.CustomersController.CheckEmailAvailability(System.String,System.Nullable{System.Guid})">
+            <summary>
+            Verifica se um email está disponível para uso
+            </summary>
+            <param name="email">Email a ser verificado</param>
+            <param name="excludeId">ID do cliente a ser excluído da verificação (para updates)</param>
+            <returns>True se disponível, false se já em uso</returns>
+        </member>
+        <member name="T:GestaoMensalidades.API.Data.ApplicationDbContext">
+            <summary>
+            Contexto principal da aplicação para Entity Framework Core
+            Gerencia todas as entidades do domínio e suas configurações
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Data.ApplicationDbContext.ConfigureUserEntity(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            Configura a entidade User com suas propriedades e relacionamentos
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Data.ApplicationDbContext.ConfigureCustomerEntity(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            Configura a entidade Customer com suas propriedades e relacionamentos
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Data.ApplicationDbContext.ConfigureSubscriptionEntity(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            Configura a entidade Subscription com suas propriedades e relacionamentos
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Data.ApplicationDbContext.ConfigurePaymentEntity(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            Configura a entidade Payment com suas propriedades e relacionamentos
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Data.ApplicationDbContext.SeedInitialData(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            Adiciona dados iniciais para desenvolvimento e testes
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.DTOs.Auth.LoginRequestDto">
+            <summary>
+            DTO para requisição de login
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Auth.LoginRequestDto.Email">
+            <summary>
+            Email do usuário
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Auth.LoginRequestDto.Password">
+            <summary>
+            Senha do usuário
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.DTOs.Auth.LoginResponseDto">
+            <summary>
+            DTO para resposta de login
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Auth.LoginResponseDto.Token">
+            <summary>
+            Token JWT para autenticação
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Auth.LoginResponseDto.ExpiresAt">
+            <summary>
+            Data de expiração do token
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Auth.LoginResponseDto.User">
+            <summary>
+            Informações do usuário autenticado
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.DTOs.Auth.UserInfoDto">
+            <summary>
+            DTO com informações básicas do usuário
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Auth.UserInfoDto.Id">
+            <summary>
+            ID do usuário
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Auth.UserInfoDto.Name">
+            <summary>
+            Nome do usuário
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Auth.UserInfoDto.Email">
+            <summary>
+            Email do usuário
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Auth.UserInfoDto.Role">
+            <summary>
+            Papel do usuário no sistema
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.DTOs.Auth.RegisterRequestDto">
+            <summary>
+            DTO para requisição de registro de usuário
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Auth.RegisterRequestDto.Name">
+            <summary>
+            Nome completo do usuário
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Auth.RegisterRequestDto.Email">
+            <summary>
+            Email do usuário
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Auth.RegisterRequestDto.Password">
+            <summary>
+            Senha do usuário
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Auth.RegisterRequestDto.ConfirmPassword">
+            <summary>
+            Confirmação da senha
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Auth.RegisterRequestDto.Role">
+            <summary>
+            Papel do usuário (Admin, BusinessOwner)
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.DTOs.Customer.CreateCustomerDto">
+            <summary>
+            DTO para criação de um novo cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CreateCustomerDto.Name">
+            <summary>
+            Nome do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CreateCustomerDto.Email">
+            <summary>
+            Email do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CreateCustomerDto.Phone">
+            <summary>
+            Telefone do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CreateCustomerDto.Document">
+            <summary>
+            Documento do cliente (CPF, CNPJ, etc.)
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CreateCustomerDto.Address">
+            <summary>
+            Endereço do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CreateCustomerDto.BirthDate">
+            <summary>
+            Data de nascimento do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CreateCustomerDto.Notes">
+            <summary>
+            Observações sobre o cliente
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.DTOs.Customer.CustomerDto">
+            <summary>
+            DTO para representar um cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CustomerDto.Id">
+            <summary>
+            ID do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CustomerDto.Name">
+            <summary>
+            Nome do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CustomerDto.Email">
+            <summary>
+            Email do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CustomerDto.Phone">
+            <summary>
+            Telefone do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CustomerDto.Document">
+            <summary>
+            Documento do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CustomerDto.Address">
+            <summary>
+            Endereço do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CustomerDto.BirthDate">
+            <summary>
+            Data de nascimento do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CustomerDto.IsActive">
+            <summary>
+            Indica se o cliente está ativo
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CustomerDto.Notes">
+            <summary>
+            Observações sobre o cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CustomerDto.CreatedAt">
+            <summary>
+            Data de criação
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.CustomerDto.UpdatedAt">
+            <summary>
+            Data da última atualização
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.DTOs.Customer.UpdateCustomerDto">
+            <summary>
+            DTO para atualização de um cliente existente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.UpdateCustomerDto.Name">
+            <summary>
+            Nome do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.UpdateCustomerDto.Email">
+            <summary>
+            Email do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.UpdateCustomerDto.Phone">
+            <summary>
+            Telefone do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.UpdateCustomerDto.Document">
+            <summary>
+            Documento do cliente (CPF, CNPJ, etc.)
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.UpdateCustomerDto.Address">
+            <summary>
+            Endereço do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.UpdateCustomerDto.BirthDate">
+            <summary>
+            Data de nascimento do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.UpdateCustomerDto.IsActive">
+            <summary>
+            Indica se o cliente está ativo
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.DTOs.Customer.UpdateCustomerDto.Notes">
+            <summary>
+            Observações sobre o cliente
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.Mappings.MappingProfile">
+            <summary>
+            Perfil de mapeamento do AutoMapper
+            Define como mapear entre DTOs e Models
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.Models.Customer">
+            <summary>
+            Representa um cliente do negócio (aluno, membro da academia, etc.)
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Customer.Id">
+            <summary>
+            Identificador único do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Customer.Name">
+            <summary>
+            Nome completo do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Customer.Email">
+            <summary>
+            Email do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Customer.Phone">
+            <summary>
+            Telefone do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Customer.Document">
+            <summary>
+            Documento de identificação (CPF, CNPJ, etc.)
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Customer.Address">
+            <summary>
+            Endereço completo do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Customer.BirthDate">
+            <summary>
+            Data de nascimento do cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Customer.IsActive">
+            <summary>
+            Indica se o cliente está ativo
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Customer.Notes">
+            <summary>
+            Observações sobre o cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Customer.BusinessOwnerId">
+            <summary>
+            ID do proprietário do negócio que gerencia este cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Customer.CreatedAt">
+            <summary>
+            Data de criação do registro
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Customer.UpdatedAt">
+            <summary>
+            Data da última atualização do registro
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Customer.BusinessOwner">
+            <summary>
+            Navegação para o proprietário do negócio
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Customer.Subscriptions">
+            <summary>
+            Navegação para as assinaturas do cliente
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.Models.Payment">
+            <summary>
+            Representa um pagamento de uma assinatura
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Payment.Id">
+            <summary>
+            Identificador único do pagamento
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Payment.Amount">
+            <summary>
+            Valor do pagamento
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Payment.PaymentMethod">
+            <summary>
+            Método de pagamento (PIX, Cartão de Crédito, Boleto, etc.)
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Payment.Status">
+            <summary>
+            Status do pagamento (Pendente, Pago, Falhou, Cancelado, Reembolsado)
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Payment.TransactionId">
+            <summary>
+            ID da transação no gateway de pagamento
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Payment.PaymentDate">
+            <summary>
+            Data do pagamento
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Payment.DueDate">
+            <summary>
+            Data de vencimento do pagamento
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Payment.ProcessedAt">
+            <summary>
+            Data de processamento do pagamento
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Payment.Notes">
+            <summary>
+            Observações sobre o pagamento
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Payment.SubscriptionId">
+            <summary>
+            ID da assinatura relacionada
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Payment.CreatedAt">
+            <summary>
+            Data de criação do registro
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Payment.UpdatedAt">
+            <summary>
+            Data da última atualização do registro
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Payment.Subscription">
+            <summary>
+            Navegação para a assinatura
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.Models.Subscription">
+            <summary>
+            Representa uma assinatura/mensalidade de um cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Subscription.Id">
+            <summary>
+            Identificador único da assinatura
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Subscription.Name">
+            <summary>
+            Nome da assinatura (ex: "Plano Mensal", "Aulas de Piano")
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Subscription.Description">
+            <summary>
+            Descrição detalhada da assinatura
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Subscription.Price">
+            <summary>
+            Valor da assinatura
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Subscription.BillingCycle">
+            <summary>
+            Ciclo de cobrança (Mensal, Trimestral, Semestral, Anual)
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Subscription.Status">
+            <summary>
+            Status da assinatura (Ativa, Suspensa, Cancelada, Expirada)
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Subscription.StartDate">
+            <summary>
+            Data de início da assinatura
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Subscription.EndDate">
+            <summary>
+            Data de fim da assinatura (opcional para assinaturas contínuas)
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Subscription.NextDueDate">
+            <summary>
+            Data do próximo vencimento
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Subscription.CustomerId">
+            <summary>
+            ID do cliente proprietário da assinatura
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Subscription.CreatedAt">
+            <summary>
+            Data de criação do registro
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Subscription.UpdatedAt">
+            <summary>
+            Data da última atualização do registro
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Subscription.Customer">
+            <summary>
+            Navegação para o cliente
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.Subscription.Payments">
+            <summary>
+            Navegação para os pagamentos da assinatura
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.Models.User">
+            <summary>
+            Representa um usuário do sistema (administradores, proprietários de negócios)
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.User.Id">
+            <summary>
+            Identificador único do usuário
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.User.Name">
+            <summary>
+            Nome completo do usuário
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.User.Email">
+            <summary>
+            Email do usuário (usado para login)
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.User.PasswordHash">
+            <summary>
+            Hash da senha (nunca armazenar senha em texto plano)
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.User.Role">
+            <summary>
+            Papel do usuário no sistema (Admin, BusinessOwner, etc.)
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.User.IsActive">
+            <summary>
+            Indica se o usuário está ativo no sistema
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.User.CreatedAt">
+            <summary>
+            Data de criação do registro
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.User.UpdatedAt">
+            <summary>
+            Data da última atualização do registro
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.User.LastLoginAt">
+            <summary>
+            Data da última tentativa de login
+            </summary>
+        </member>
+        <member name="P:GestaoMensalidades.API.Models.User.Customers">
+            <summary>
+            Navegação para os clientes gerenciados por este usuário
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.Repositories.CustomerRepository">
+            <summary>
+            Implementação específica do repositório de clientes
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.CustomerRepository.GetByBusinessOwnerAsync(System.Guid)">
+            <summary>
+            Busca clientes por proprietário do negócio
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.CustomerRepository.GetActiveByBusinessOwnerAsync(System.Guid)">
+            <summary>
+            Busca clientes ativos por proprietário do negócio
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.CustomerRepository.GetByDocumentAsync(System.String)">
+            <summary>
+            Busca cliente por documento
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.CustomerRepository.GetByEmailAsync(System.String)">
+            <summary>
+            Busca cliente por email
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.CustomerRepository.GetWithSubscriptionsAsync(System.Guid)">
+            <summary>
+            Busca clientes com suas assinaturas
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.Repositories.ICustomerRepository">
+            <summary>
+            Interface específica para repositório de clientes
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.ICustomerRepository.GetByBusinessOwnerAsync(System.Guid)">
+            <summary>
+            Busca clientes por proprietário do negócio
+            </summary>
+            <param name="businessOwnerId">ID do proprietário do negócio</param>
+            <returns>Lista de clientes do proprietário</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.ICustomerRepository.GetActiveByBusinessOwnerAsync(System.Guid)">
+            <summary>
+            Busca clientes ativos por proprietário do negócio
+            </summary>
+            <param name="businessOwnerId">ID do proprietário do negócio</param>
+            <returns>Lista de clientes ativos do proprietário</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.ICustomerRepository.GetByDocumentAsync(System.String)">
+            <summary>
+            Busca cliente por documento
+            </summary>
+            <param name="document">Documento do cliente</param>
+            <returns>Cliente encontrado ou null</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.ICustomerRepository.GetByEmailAsync(System.String)">
+            <summary>
+            Busca cliente por email
+            </summary>
+            <param name="email">Email do cliente</param>
+            <returns>Cliente encontrado ou null</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.ICustomerRepository.GetWithSubscriptionsAsync(System.Guid)">
+            <summary>
+            Busca clientes com suas assinaturas
+            </summary>
+            <param name="businessOwnerId">ID do proprietário do negócio</param>
+            <returns>Lista de clientes com assinaturas</returns>
+        </member>
+        <member name="T:GestaoMensalidades.API.Repositories.IRepository`1">
+            <summary>
+            Interface genérica para repositórios
+            Define operações básicas de CRUD para qualquer entidade
+            </summary>
+            <typeparam name="T">Tipo da entidade</typeparam>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.IRepository`1.GetByIdAsync(System.Guid)">
+            <summary>
+            Busca uma entidade por ID
+            </summary>
+            <param name="id">ID da entidade</param>
+            <returns>Entidade encontrada ou null</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.IRepository`1.GetAllAsync">
+            <summary>
+            Busca todas as entidades
+            </summary>
+            <returns>Lista de entidades</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.IRepository`1.FindAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Busca entidades com filtro
+            </summary>
+            <param name="predicate">Expressão de filtro</param>
+            <returns>Lista de entidades que atendem ao filtro</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.IRepository`1.FirstOrDefaultAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Busca a primeira entidade que atende ao filtro
+            </summary>
+            <param name="predicate">Expressão de filtro</param>
+            <returns>Primeira entidade encontrada ou null</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.IRepository`1.AddAsync(`0)">
+            <summary>
+            Adiciona uma nova entidade
+            </summary>
+            <param name="entity">Entidade a ser adicionada</param>
+            <returns>Entidade adicionada</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.IRepository`1.UpdateAsync(`0)">
+            <summary>
+            Atualiza uma entidade existente
+            </summary>
+            <param name="entity">Entidade a ser atualizada</param>
+            <returns>Entidade atualizada</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.IRepository`1.DeleteAsync(`0)">
+            <summary>
+            Remove uma entidade
+            </summary>
+            <param name="entity">Entidade a ser removida</param>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.IRepository`1.DeleteAsync(System.Guid)">
+            <summary>
+            Remove uma entidade por ID
+            </summary>
+            <param name="id">ID da entidade a ser removida</param>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.IRepository`1.ExistsAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Verifica se existe uma entidade que atende ao filtro
+            </summary>
+            <param name="predicate">Expressão de filtro</param>
+            <returns>True se existe, false caso contrário</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.IRepository`1.CountAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Conta quantas entidades atendem ao filtro
+            </summary>
+            <param name="predicate">Expressão de filtro</param>
+            <returns>Número de entidades</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.IRepository`1.SaveChangesAsync">
+            <summary>
+            Salva as alterações no banco de dados
+            </summary>
+            <returns>Número de registros afetados</returns>
+        </member>
+        <member name="T:GestaoMensalidades.API.Repositories.IUserRepository">
+            <summary>
+            Interface específica para repositório de usuários
+            Define operações específicas para a entidade User
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.IUserRepository.GetByEmailAsync(System.String)">
+            <summary>
+            Busca um usuário pelo email
+            </summary>
+            <param name="email">Email do usuário</param>
+            <returns>Usuário encontrado ou null</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.IUserRepository.IsEmailInUseAsync(System.String)">
+            <summary>
+            Verifica se um email já está em uso
+            </summary>
+            <param name="email">Email a ser verificado</param>
+            <returns>True se o email já estiver em uso</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.IUserRepository.GetActiveUsersAsync">
+            <summary>
+            Busca usuários ativos
+            </summary>
+            <returns>Lista de usuários ativos</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.IUserRepository.GetByRoleAsync(System.String)">
+            <summary>
+            Busca usuários por papel
+            </summary>
+            <param name="role">Papel do usuário</param>
+            <returns>Lista de usuários com o papel especificado</returns>
+        </member>
+        <member name="T:GestaoMensalidades.API.Repositories.Repository`1">
+            <summary>
+            Implementação genérica do Repository Pattern
+            Fornece operações básicas de CRUD para qualquer entidade
+            </summary>
+            <typeparam name="T">Tipo da entidade</typeparam>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.Repository`1.GetByIdAsync(System.Guid)">
+            <summary>
+            Busca uma entidade por ID
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.Repository`1.GetAllAsync">
+            <summary>
+            Busca todas as entidades
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.Repository`1.FindAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Busca entidades com filtro
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.Repository`1.FirstOrDefaultAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Busca a primeira entidade que atende ao filtro
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.Repository`1.AddAsync(`0)">
+            <summary>
+            Adiciona uma nova entidade
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.Repository`1.UpdateAsync(`0)">
+            <summary>
+            Atualiza uma entidade existente
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.Repository`1.DeleteAsync(`0)">
+            <summary>
+            Remove uma entidade
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.Repository`1.DeleteAsync(System.Guid)">
+            <summary>
+            Remove uma entidade por ID
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.Repository`1.ExistsAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Verifica se existe uma entidade que atende ao filtro
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.Repository`1.CountAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Conta quantas entidades atendem ao filtro
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.Repository`1.SaveChangesAsync">
+            <summary>
+            Salva as alterações no banco de dados
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.Repositories.UserRepository">
+            <summary>
+            Implementação específica do repositório de usuários
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.UserRepository.GetByEmailAsync(System.String)">
+            <summary>
+            Busca um usuário pelo email
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.UserRepository.IsEmailInUseAsync(System.String)">
+            <summary>
+            Verifica se um email já está em uso
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.UserRepository.GetActiveUsersAsync">
+            <summary>
+            Busca usuários ativos
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Repositories.UserRepository.GetByRoleAsync(System.String)">
+            <summary>
+            Busca usuários por papel
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.Services.AuthService">
+            <summary>
+            Serviço de autenticação responsável por login, registro e validação de usuários
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.AuthService.LoginAsync(GestaoMensalidades.API.DTOs.Auth.LoginRequestDto)">
+            <summary>
+            Autentica um usuário e retorna o token JWT
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.AuthService.RegisterAsync(GestaoMensalidades.API.DTOs.Auth.RegisterRequestDto)">
+            <summary>
+            Registra um novo usuário no sistema
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.AuthService.IsEmailInUseAsync(System.String)">
+            <summary>
+            Verifica se um email já está em uso
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.Services.CustomerService">
+            <summary>
+            Serviço para operações relacionadas a clientes
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.CustomerService.GetCustomersAsync(System.Guid)">
+            <summary>
+            Busca todos os clientes de um proprietário de negócio
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.CustomerService.GetCustomerByIdAsync(System.Guid,System.Guid)">
+            <summary>
+            Busca um cliente por ID
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.CustomerService.CreateCustomerAsync(GestaoMensalidades.API.DTOs.Customer.CreateCustomerDto,System.Guid)">
+            <summary>
+            Cria um novo cliente
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.CustomerService.UpdateCustomerAsync(System.Guid,GestaoMensalidades.API.DTOs.Customer.UpdateCustomerDto,System.Guid)">
+            <summary>
+            Atualiza um cliente existente
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.CustomerService.DeleteCustomerAsync(System.Guid,System.Guid)">
+            <summary>
+            Remove um cliente
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.CustomerService.IsDocumentInUseAsync(System.String,System.Guid,System.Nullable{System.Guid})">
+            <summary>
+            Verifica se um documento já está em uso por outro cliente
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.CustomerService.IsEmailInUseAsync(System.String,System.Guid,System.Nullable{System.Guid})">
+            <summary>
+            Verifica se um email já está em uso por outro cliente
+            </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.Services.IAuthService">
+            <summary>
+            Interface para o serviço de autenticação
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.IAuthService.LoginAsync(GestaoMensalidades.API.DTOs.Auth.LoginRequestDto)">
+            <summary>
+            Autentica um usuário e retorna o token JWT
+            </summary>
+            <param name="loginRequest">Dados de login</param>
+            <returns>Resposta com token e informações do usuário</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.IAuthService.RegisterAsync(GestaoMensalidades.API.DTOs.Auth.RegisterRequestDto)">
+            <summary>
+            Registra um novo usuário no sistema
+            </summary>
+            <param name="registerRequest">Dados de registro</param>
+            <returns>Resposta com token e informações do usuário</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.IAuthService.IsEmailInUseAsync(System.String)">
+            <summary>
+            Verifica se um email já está em uso
+            </summary>
+            <param name="email">Email a ser verificado</param>
+            <returns>True se o email já estiver em uso</returns>
+        </member>
+        <member name="T:GestaoMensalidades.API.Services.ICustomerService">
+            <summary>
+            Interface para o serviço de clientes
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.ICustomerService.GetCustomersAsync(System.Guid)">
+            <summary>
+            Busca todos os clientes de um proprietário de negócio
+            </summary>
+            <param name="businessOwnerId">ID do proprietário do negócio</param>
+            <returns>Lista de clientes</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.ICustomerService.GetCustomerByIdAsync(System.Guid,System.Guid)">
+            <summary>
+            Busca um cliente por ID
+            </summary>
+            <param name="id">ID do cliente</param>
+            <param name="businessOwnerId">ID do proprietário do negócio</param>
+            <returns>Cliente encontrado ou null</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.ICustomerService.CreateCustomerAsync(GestaoMensalidades.API.DTOs.Customer.CreateCustomerDto,System.Guid)">
+            <summary>
+            Cria um novo cliente
+            </summary>
+            <param name="createDto">Dados do cliente a ser criado</param>
+            <param name="businessOwnerId">ID do proprietário do negócio</param>
+            <returns>Cliente criado</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.ICustomerService.UpdateCustomerAsync(System.Guid,GestaoMensalidades.API.DTOs.Customer.UpdateCustomerDto,System.Guid)">
+            <summary>
+            Atualiza um cliente existente
+            </summary>
+            <param name="id">ID do cliente</param>
+            <param name="updateDto">Dados atualizados do cliente</param>
+            <param name="businessOwnerId">ID do proprietário do negócio</param>
+            <returns>Cliente atualizado ou null se não encontrado</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.ICustomerService.DeleteCustomerAsync(System.Guid,System.Guid)">
+            <summary>
+            Remove um cliente
+            </summary>
+            <param name="id">ID do cliente</param>
+            <param name="businessOwnerId">ID do proprietário do negócio</param>
+            <returns>True se removido com sucesso</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.ICustomerService.IsDocumentInUseAsync(System.String,System.Guid,System.Nullable{System.Guid})">
+            <summary>
+            Verifica se um documento já está em uso por outro cliente
+            </summary>
+            <param name="document">Documento a ser verificado</param>
+            <param name="businessOwnerId">ID do proprietário do negócio</param>
+            <param name="excludeCustomerId">ID do cliente a ser excluído da verificação (para updates)</param>
+            <returns>True se o documento já estiver em uso</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.ICustomerService.IsEmailInUseAsync(System.String,System.Guid,System.Nullable{System.Guid})">
+            <summary>
+            Verifica se um email já está em uso por outro cliente
+            </summary>
+            <param name="email">Email a ser verificado</param>
+            <param name="businessOwnerId">ID do proprietário do negócio</param>
+            <param name="excludeCustomerId">ID do cliente a ser excluído da verificação (para updates)</param>
+            <returns>True se o email já estiver em uso</returns>
+        </member>
+        <member name="T:GestaoMensalidades.API.Services.IJwtService">
+            <summary>
+            Interface para o serviço de geração e validação de tokens JWT
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.IJwtService.GenerateToken(GestaoMensalidades.API.Models.User)">
+            <summary>
+            Gera um token JWT para o usuário
+            </summary>
+            <param name="user">Usuário para o qual gerar o token</param>
+            <returns>Token JWT</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.IJwtService.ValidateToken(System.String)">
+            <summary>
+            Valida um token JWT
+            </summary>
+            <param name="token">Token a ser validado</param>
+            <returns>True se o token for válido, false caso contrário</returns>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.IJwtService.GetUserIdFromToken(System.String)">
+            <summary>
+            Extrai o ID do usuário de um token JWT
+            </summary>
+            <param name="token">Token JWT</param>
+            <returns>ID do usuário ou null se inválido</returns>
+        </member>
+        <member name="T:GestaoMensalidades.API.Services.JwtService">
+            <summary>
+            Serviço para geração e validação de tokens JWT
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.JwtService.GenerateToken(GestaoMensalidades.API.Models.User)">
+            <summary>
+            Gera um token JWT para o usuário
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.JwtService.ValidateToken(System.String)">
+            <summary>
+            Valida um token JWT
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Services.JwtService.GetUserIdFromToken(System.String)">
+            <summary>
+            Extrai o ID do usuário de um token JWT
+            </summary>
+        </member>
+    </members>
+</doc>
