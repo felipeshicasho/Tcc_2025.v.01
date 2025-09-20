@@ -1,0 +1,111 @@
+### Gestão de Mensalidades API - Exemplos de Uso
+### Use este arquivo para testar a API no Visual Studio Code com a extensão REST Client
+
+@baseUrl = https://localhost:7001
+@token = 
+
+### 1. Registro de novo usuário
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "João Silva",
+  "email": "joao@exemplo.com",
+  "password": "123456",
+  "confirmPassword": "123456",
+  "role": "BusinessOwner"
+}
+
+### 2. Login com usuário existente
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@gestaomensalidades.com",
+  "password": "admin123"
+}
+
+### 3. Verificar disponibilidade de email
+GET {{baseUrl}}/api/auth/check-email/teste@exemplo.com
+
+### 4. Listar clientes (requer autenticação)
+GET {{baseUrl}}/api/customers
+Authorization: Bearer {{token}}
+
+### 5. Criar novo cliente (requer autenticação)
+POST {{baseUrl}}/api/customers
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Maria Santos",
+  "email": "maria@exemplo.com",
+  "phone": "(11) 99999-9999",
+  "document": "123.456.789-00",
+  "address": "Rua das Flores, 123 - São Paulo/SP",
+  "birthDate": "1990-05-15T00:00:00Z",
+  "notes": "Cliente preferencial"
+}
+
+### 6. Buscar cliente por ID (requer autenticação)
+GET {{baseUrl}}/api/customers/{{customerId}}
+Authorization: Bearer {{token}}
+
+### 7. Atualizar cliente (requer autenticação)
+PUT {{baseUrl}}/api/customers/{{customerId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Maria Santos Silva",
+  "email": "maria.silva@exemplo.com",
+  "phone": "(11) 98888-8888",
+  "document": "123.456.789-00",
+  "address": "Rua das Flores, 456 - São Paulo/SP",
+  "birthDate": "1990-05-15T00:00:00Z",
+  "isActive": true,
+  "notes": "Cliente preferencial - atualizado"
+}
+
+### 8. Verificar disponibilidade de documento (requer autenticação)
+GET {{baseUrl}}/api/customers/check-document/987.654.321-00
+Authorization: Bearer {{token}}
+
+### 9. Verificar disponibilidade de email de cliente (requer autenticação)
+GET {{baseUrl}}/api/customers/check-email/novo@exemplo.com
+Authorization: Bearer {{token}}
+
+### 10. Remover cliente (requer autenticação)
+DELETE {{baseUrl}}/api/customers/{{customerId}}
+Authorization: Bearer {{token}}
+
+### Exemplos de respostas de erro:
+
+### 400 - Bad Request (dados inválidos)
+POST {{baseUrl}}/api/customers
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "",
+  "email": "email-invalido"
+}
+
+### 401 - Unauthorized (token inválido ou expirado)
+GET {{baseUrl}}/api/customers
+Authorization: Bearer token-invalido
+
+### 404 - Not Found (cliente não encontrado)
+GET {{baseUrl}}/api/customers/00000000-0000-0000-0000-000000000000
+Authorization: Bearer {{token}}
+
+### 409 - Conflict (email ou documento já em uso)
+POST {{baseUrl}}/api/customers
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Cliente Duplicado",
+  "email": "maria@exemplo.com",
+  "document": "123.456.789-00"
+}
