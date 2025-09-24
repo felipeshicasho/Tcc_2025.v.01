@@ -48,13 +48,13 @@ public interface IRepository<T> where T : class
     /// </summary>
     /// <param name="entity">Entidade a ser atualizada</param>
     /// <returns>Entidade atualizada</returns>
-    Task<T> UpdateAsync(T entity);
+    T Update(T entity);
 
     /// <summary>
     /// Remove uma entidade
     /// </summary>
     /// <param name="entity">Entidade a ser removida</param>
-    Task DeleteAsync(T entity);
+    void Delete(T entity);
 
     /// <summary>
     /// Remove uma entidade por ID
@@ -82,3 +82,4 @@ public interface IRepository<T> where T : class
     /// <returns>Número de registros afetados</returns>
     Task<int> SaveChangesAsync();
 }
+

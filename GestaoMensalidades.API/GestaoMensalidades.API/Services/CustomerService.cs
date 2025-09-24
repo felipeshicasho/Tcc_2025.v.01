@@ -116,7 +116,7 @@ public class CustomerService : ICustomerService
         customer.Notes = updateDto.Notes;
         customer.UpdatedAt = DateTime.UtcNow;
 
-        await _customerRepository.UpdateAsync(customer);
+        _customerRepository.Update(customer);
         await _customerRepository.SaveChangesAsync();
 
         return _mapper.Map<CustomerDto>(customer);
@@ -133,7 +133,7 @@ public class CustomerService : ICustomerService
         if (customer == null)
             return false;
 
-        await _customerRepository.DeleteAsync(customer);
+        _customerRepository.Delete(customer);
         await _customerRepository.SaveChangesAsync();
 
         return true;
@@ -179,3 +179,4 @@ public class CustomerService : ICustomerService
         return customers.Any();
     }
 }
+

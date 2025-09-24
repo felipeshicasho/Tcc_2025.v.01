@@ -64,7 +64,7 @@ public class Repository<T> : IRepository<T> where T : class
     /// <summary>
     /// Atualiza uma entidade existente
     /// </summary>
-    public virtual async Task<T> UpdateAsync(T entity)
+    public virtual T Update(T entity)
     {
         _dbSet.Update(entity);
         return entity;
@@ -73,10 +73,9 @@ public class Repository<T> : IRepository<T> where T : class
     /// <summary>
     /// Remove uma entidade
     /// </summary>
-    public virtual Task DeleteAsync(T entity)
+    public virtual void Delete(T entity)
     {
         _dbSet.Remove(entity);
-        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -87,7 +86,7 @@ public class Repository<T> : IRepository<T> where T : class
         var entity = await GetByIdAsync(id);
         if (entity != null)
         {
-            await DeleteAsync(entity);
+            Delete(entity);
         }
     }
 
