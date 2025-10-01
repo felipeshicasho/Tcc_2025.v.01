@@ -1,0 +1,327 @@
+@page "/customers"
+@using GestaoMensalidades.Web.Models
+@using GestaoMensalidades.Web.Services
+@inject ApiService ApiService
+@inject AuthService AuthService
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+@attribute [Authorize]
+
+<PageTitle>Clientes - Gestão de Mensalidades</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="fas fa-users"></i> Clientes</h2>
+                <button class="btn btn-primary" @onclick="ShowCreateModal">
+                    <i class="fas fa-plus"></i> Novo Cliente
+                </button>
+            </div>
+
+            @if (isLoading)
+            {
+                <div class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Carregando...</span>
+                    </div>
+                </div>
+            }
+            else if (customers.Any())
+            {
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Email</th>
+                                        <th>Telefone</th>
+                                        <th>Documento</th>
+                                        <th>Status</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var customer in customers)
+                                    {
+                                        <tr>
+                                            <td>@customer.Name</td>
+                                            <td>@(customer.Email ?? "-")</td>
+                                            <td>@(customer.Phone ?? "-")</td>
+                                            <td>@(customer.Document ?? "-")</td>
+                                            <td>
+                                                @if (customer.IsActive)
+                                                {
+                                                    <span class="badge bg-success">Ativo</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">Inativo</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => ShowEditModal(customer)">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteCustomer(customer.Id)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> Nenhum cliente encontrado. Clique em "Novo Cliente" para começar.
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Criar/Editar Cliente -->
+@if (showModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        @(isEditing ? "Editar Cliente" : "Novo Cliente")
+                    </h5>
+                    <button type="button" class="btn-close" @onclick="CloseModal"></button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="@currentCustomer" OnValidSubmit="@HandleSave">
+                        <DataAnnotationsValidator />
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nome *</label>
+                                <InputText class="form-control" @bind-Value="currentCustomer.Name" />
+                                <ValidationMessage For="@(() => currentCustomer.Name)" class="text-danger" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                <InputText class="form-control" @bind-Value="currentCustomer.Email" />
+                                <ValidationMessage For="@(() => currentCustomer.Email)" class="text-danger" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Telefone</label>
+                                <InputText class="form-control" @bind-Value="currentCustomer.Phone" />
+                                <ValidationMessage For="@(() => currentCustomer.Phone)" class="text-danger" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Documento</label>
+                                <InputText class="form-control" @bind-Value="currentCustomer.Document" />
+                                <ValidationMessage For="@(() => currentCustomer.Document)" class="text-danger" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Endereço</label>
+                            <InputTextArea class="form-control" rows="2" @bind-Value="currentCustomer.Address" />
+                            <ValidationMessage For="@(() => currentCustomer.Address)" class="text-danger" />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Data de Nascimento</label>
+                                <InputDate class="form-control" @bind-Value="currentCustomer.BirthDate" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check">
+                                    <InputCheckbox class="form-check-input" @bind-Value="currentCustomer.IsActive" />
+                                    <label class="form-check-label">Cliente Ativo</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Observações</label>
+                            <InputTextArea class="form-control" rows="3" @bind-Value="currentCustomer.Notes" />
+                            <ValidationMessage For="@(() => currentCustomer.Notes)" class="text-danger" />
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(errorMessage))
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fas fa-exclamation-triangle"></i> @errorMessage
+                            </div>
+                        }
+                    </EditForm>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CloseModal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" @onclick="HandleSave" disabled="@isSaving">
+                        @if (isSaving)
+                        {
+                            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                        }
+                        @(isEditing ? "Atualizar" : "Criar")
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private List<CustomerModel> customers = new();
+    private bool isLoading = true;
+    private bool showModal = false;
+    private bool isEditing = false;
+    private bool isSaving = false;
+    private CustomerModel currentCustomer = new();
+    private string errorMessage = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCustomers();
+    }
+
+    private async Task LoadCustomers()
+    {
+        isLoading = true;
+        StateHasChanged();
+
+        try
+        {
+            var response = await ApiService.GetCustomersAsync();
+            if (response.IsSuccess && response.Data != null)
+            {
+                customers = response.Data;
+            }
+            else
+            {
+                await JSRuntime.InvokeVoidAsync("showToast", response.Message, "error");
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("showToast", "Erro ao carregar clientes", "error");
+            Console.WriteLine($"Erro ao carregar clientes: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private void ShowCreateModal()
+    {
+        currentCustomer = new CustomerModel();
+        isEditing = false;
+        showModal = true;
+        errorMessage = string.Empty;
+    }
+
+    private void ShowEditModal(CustomerModel customer)
+    {
+        currentCustomer = new CustomerModel
+        {
+            Id = customer.Id,
+            Name = customer.Name,
+            Email = customer.Email,
+            Phone = customer.Phone,
+            Document = customer.Document,
+            Address = customer.Address,
+            BirthDate = customer.BirthDate,
+            IsActive = customer.IsActive,
+            Notes = customer.Notes
+        };
+        isEditing = true;
+        showModal = true;
+        errorMessage = string.Empty;
+    }
+
+    private void CloseModal()
+    {
+        showModal = false;
+        currentCustomer = new();
+        errorMessage = string.Empty;
+    }
+
+    private async Task HandleSave()
+    {
+        isSaving = true;
+        errorMessage = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            ApiResponse<CustomerModel> response;
+            
+            if (isEditing)
+            {
+                response = await ApiService.UpdateCustomerAsync(currentCustomer);
+            }
+            else
+            {
+                response = await ApiService.CreateCustomerAsync(currentCustomer);
+            }
+
+            if (response.IsSuccess)
+            {
+                await JSRuntime.InvokeVoidAsync("showToast", response.Message, "success");
+                CloseModal();
+                await LoadCustomers();
+            }
+            else
+            {
+                errorMessage = response.Message;
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Erro interno do servidor. Tente novamente.";
+            Console.WriteLine($"Erro ao salvar cliente: {ex.Message}");
+        }
+        finally
+        {
+            isSaving = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task DeleteCustomer(Guid customerId)
+    {
+        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Tem certeza que deseja remover este cliente?");
+        
+        if (confirmed)
+        {
+            try
+            {
+                var response = await ApiService.DeleteCustomerAsync(customerId);
+                
+                if (response.IsSuccess)
+                {
+                    await JSRuntime.InvokeVoidAsync("showToast", response.Message, "success");
+                    await LoadCustomers();
+                }
+                else
+                {
+                    await JSRuntime.InvokeVoidAsync("showToast", response.Message, "error");
+                }
+            }
+            catch (Exception ex)
+            {
+                await JSRuntime.InvokeVoidAsync("showToast", "Erro ao remover cliente", "error");
+                Console.WriteLine($"Erro ao remover cliente: {ex.Message}");
+            }
+        }
+    }
+}
+

@@ -1,0 +1,161 @@
+@page "/"
+@using GestaoMensalidades.Web.Services
+@inject AuthService AuthService
+@inject NavigationManager Navigation
+@attribute [Authorize]
+
+<PageTitle>Dashboard - Gestão de Mensalidades</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user"></i> @AuthService.GetCurrentUserName()
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/customers"><i class="fas fa-users"></i> Clientes</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" @onclick="Logout"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4 class="card-title">Clientes</h4>
+                            <h2 class="mb-0">0</h2>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-users fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="/customers" class="text-white text-decoration-none">
+                        <i class="fas fa-arrow-right"></i> Ver todos
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4 class="card-title">Assinaturas</h4>
+                            <h2 class="mb-0">0</h2>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-credit-card fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="text-white text-decoration-none">
+                        <i class="fas fa-arrow-right"></i> Em breve
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4 class="card-title">Pagamentos</h4>
+                            <h2 class="mb-0">0</h2>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-money-bill-wave fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="text-white text-decoration-none">
+                        <i class="fas fa-arrow-right"></i> Em breve
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4 class="card-title">Receita</h4>
+                            <h2 class="mb-0">R$ 0,00</h2>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-chart-line fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="text-white text-decoration-none">
+                        <i class="fas fa-arrow-right"></i> Em breve
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-info-circle"></i> Bem-vindo ao Sistema de Gestão de Mensalidades
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Este é o seu painel de controle para gerenciar clientes, assinaturas e pagamentos.
+                        Use o menu acima para navegar pelas diferentes funcionalidades.
+                    </p>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-check-circle text-success"></i> Funcionalidades Disponíveis:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-users text-primary"></i> Gestão de Clientes</li>
+                                <li><i class="fas fa-user-plus text-primary"></i> Cadastro de Novos Clientes</li>
+                                <li><i class="fas fa-edit text-primary"></i> Edição de Dados</li>
+                                <li><i class="fas fa-trash text-primary"></i> Remoção de Clientes</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-clock text-warning"></i> Em Desenvolvimento:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-credit-card text-muted"></i> Gestão de Assinaturas</li>
+                                <li><i class="fas fa-money-bill-wave text-muted"></i> Controle de Pagamentos</li>
+                                <li><i class="fas fa-chart-bar text-muted"></i> Relatórios e Dashboards</li>
+                                <li><i class="fas fa-bell text-muted"></i> Notificações</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private async Task Logout()
+    {
+        await AuthService.LogoutAsync();
+        Navigation.NavigateTo("/login");
+    }
+}
+

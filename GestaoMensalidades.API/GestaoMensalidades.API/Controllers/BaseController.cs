@@ -60,3 +60,4 @@ public abstract class BaseController : ControllerBase
         return Ok(new { message, data });
     }
 }
+

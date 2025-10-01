@@ -109,3 +109,4 @@ Authorization: Bearer {{token}}
   "email": "maria@exemplo.com",
   "document": "123.456.789-00"
 }
+

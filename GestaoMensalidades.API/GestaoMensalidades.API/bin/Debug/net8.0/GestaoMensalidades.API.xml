@@ -125,6 +125,26 @@
             <param name="excludeId">ID do cliente a ser excluído da verificação (para updates)</param>
             <returns>True se disponível, false se já em uso</returns>
         </member>
+        <member name="T:GestaoMensalidades.API.Controllers.TestController">
+            <summary>
+            Controller para testes de autenticação
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.TestController.PublicTest">
+            <summary>
+            Endpoint público para testar se a API está funcionando
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.TestController.ProtectedTest">
+            <summary>
+            Endpoint protegido para testar autenticação
+            </summary>
+        </member>
+        <member name="M:GestaoMensalidades.API.Controllers.TestController.GetClaims">
+            <summary>
+            Endpoint para testar claims do token
+            </summary>
+        </member>
         <member name="T:GestaoMensalidades.API.Data.ApplicationDbContext">
             <summary>
             Contexto principal da aplicação para Entity Framework Core
@@ -396,6 +416,18 @@
             Perfil de mapeamento do AutoMapper
             Define como mapear entre DTOs e Models
             </summary>
+        </member>
+        <member name="T:GestaoMensalidades.API.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:GestaoMensalidades.API.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:GestaoMensalidades.API.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:GestaoMensalidades.API.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
         </member>
         <member name="T:GestaoMensalidades.API.Models.Customer">
             <summary>
@@ -783,14 +815,14 @@
             <param name="entity">Entidade a ser adicionada</param>
             <returns>Entidade adicionada</returns>
         </member>
-        <member name="M:GestaoMensalidades.API.Repositories.IRepository`1.UpdateAsync(`0)">
+        <member name="M:GestaoMensalidades.API.Repositories.IRepository`1.Update(`0)">
             <summary>
             Atualiza uma entidade existente
             </summary>
             <param name="entity">Entidade a ser atualizada</param>
             <returns>Entidade atualizada</returns>
         </member>
-        <member name="M:GestaoMensalidades.API.Repositories.IRepository`1.DeleteAsync(`0)">
+        <member name="M:GestaoMensalidades.API.Repositories.IRepository`1.Delete(`0)">
             <summary>
             Remove uma entidade
             </summary>
@@ -887,12 +919,12 @@
             Adiciona uma nova entidade
             </summary>
         </member>
-        <member name="M:GestaoMensalidades.API.Repositories.Repository`1.UpdateAsync(`0)">
+        <member name="M:GestaoMensalidades.API.Repositories.Repository`1.Update(`0)">
             <summary>
             Atualiza uma entidade existente
             </summary>
         </member>
-        <member name="M:GestaoMensalidades.API.Repositories.Repository`1.DeleteAsync(`0)">
+        <member name="M:GestaoMensalidades.API.Repositories.Repository`1.Delete(`0)">
             <summary>
             Remove uma entidade
             </summary>

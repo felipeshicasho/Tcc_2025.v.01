@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GestaoMensalidades.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bee71fd3ecff57fba15ae01bad830b3c5c6cda1b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b18246b443a0328bdf734b7d69a8a409705f98d5")]
 [assembly: System.Reflection.AssemblyProductAttribute("GestaoMensalidades.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GestaoMensalidades.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
